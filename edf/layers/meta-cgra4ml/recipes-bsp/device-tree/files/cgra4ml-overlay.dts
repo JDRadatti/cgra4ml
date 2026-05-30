@@ -1,0 +1,33 @@
+// SPDX-License-Identifier: GPL-2.0
+// Device Tree Overlay for CGRA4ML Accelerator
+// 
+// This overlay adds the CGRA4ML DNN accelerator to the ZynqMP PL region.
+// The accelerator is mapped at address 0xB0000000 with 64KB register space.
+//
+// Compatible strings:
+//   - "ucsd,cgra4ml-1.0" (primary)
+//   - "kastner,cgra4ml-1.0" (fallback)
+//
+// The driver uses DMA-coherent memory for zero-copy buffer access.
+
+/dts-v1/;
+/plugin/;
+
+/ {
+    fragment@0 {
+        target-path = "/amba_pl";
+        __overlay__ {
+            #address-cells = <1>;
+            #size-cells = <1>;
+            compatible = "simple-bus";
+            ranges;
+
+            cgra4ml: cgra4ml@b0000000 {
+                compatible = "ucsd,cgra4ml-1.0", "kastner,cgra4ml-1.0";
+                reg = <0xB0000000 0x00010000>;
+                dma-coherent;
+                status = "okay";
+            };
+        };
+    };
+};

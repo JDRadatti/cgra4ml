@@ -1,0 +1,28 @@
+# WIC Kickstart File for CGRA4ML Minimal Image
+#
+# This file defines the partition layout for the SD card image.
+# Two partitions:
+# 1. Boot partition (64MB, FAT32) - Contains BOOT.BIN and image.ub
+# 2. Root partition (remaining space, ext4) - Contains root filesystem
+#
+# Usage:
+#   sudo bmaptool copy cgra4ml-minimal-image.wic.wic /dev/sdX
+#
+# Or with dd:
+#   sudo dd if=cgra4ml-minimal-image.wic.wic of=/dev/sdX bs=4M status=progress
+
+# Boot partition (64MB FAT32)
+# Contains: BOOT.BIN, image.ub, boot.scr, device tree overlays
+part /boot --source bootimg-partition --ondisk mmcblk0 \
+     --fstype=vfat --active --align 4 --fixed-size 64M \
+     --label boot
+
+# Root filesystem partition (remaining space, ext4)
+# Contains: Complete root filesystem
+part / --source rootfs --ondisk mmcblk0 \
+     --fstype=ext4 --align 4 --use-uuid \
+     --label rootfs
+
+# Bootloader configuration
+# U-Boot boot script will be generated automatically
+bootloader --configfile="boot.scr"

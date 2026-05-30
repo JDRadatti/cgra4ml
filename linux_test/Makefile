@@ -1,4 +1,5 @@
-CC ?= gcc
+CROSS_COMPILE ?= aarch64-linux-gnu-
+CC = $(CROSS_COMPILE)gcc
 
 CFLAGS += -Wall -Wextra -O2 -I../linux_driver
 

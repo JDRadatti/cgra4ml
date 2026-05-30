@@ -122,3 +122,11 @@ docs/source/**
 # VSCode
 settings.json
 .vscode
+
+# AMD EDF (Yocto build artifacts)
+# Keep the layer itself, but ignore build output
+edf/build/
+edf/tmp/
+edf/downloads/
+edf/sstate-cache/
+!edf/layers/meta-cgra4ml/
